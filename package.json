@@ -1,0 +1,49 @@
+{
+    "name": "tracks-manager",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "start": "vite --host",
+        "dev": "vite",
+        "build": "tsc -b && vite build",
+        "lint": "eslint .",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.0",
+        "@headlessui/react": "^2.2.2",
+        "@heroicons/react": "^2.2.0",
+        "@tailwindcss/vite": "^4.1.4",
+        "@tanstack/react-query": "^5.74.4",
+        "@wavesurfer/react": "^1.0.11",
+        "axios": "^1.8.4",
+        "headlessui": "^0.0.0",
+        "heroicons": "^2.2.0",
+        "lodash": "^4.17.21",
+        "lucide-react": "^0.501.0",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-router-dom": "^7.5.1",
+        "react-toastify": "^11.0.5",
+        "react-widgets": "^5.8.6",
+        "tailwindcss": "^4.1.4",
+        "wavesurfer.js": "^7.9.4"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.22.0",
+        "@types/lodash": "^4.17.16",
+        "@types/react": "^19.0.10",
+        "@types/react-dom": "^19.0.4",
+        "@types/wavesurfer.js": "^6.0.12",
+        "@vitejs/plugin-react": "^4.3.4",
+        "eslint": "^9.22.0",
+        "eslint-plugin-react-hooks": "^5.2.0",
+        "eslint-plugin-react-refresh": "^0.4.19",
+        "globals": "^16.0.0",
+        "typescript": "~5.7.2",
+        "typescript-eslint": "^8.26.1",
+        "vite": "^6.3.1"
+    }
+}
