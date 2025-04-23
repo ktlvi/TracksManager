@@ -19,16 +19,12 @@ A modern, React-based track management interface with audio playback, metadata f
 
 ```bash
 npm install
-# or
-yarn install
 ```
 
 ### 2. Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
+npm start
 ```
 
 Visit [https://localhost:3000](https://localhost:3000) to open the app.
