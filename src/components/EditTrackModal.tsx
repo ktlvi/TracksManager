@@ -22,6 +22,7 @@ export default function EditTrackModal({
     onUpdate,
     onFileUpload,
 }: Props) {
+    // Form state for editing the track
     const [form, setForm] = useState({
         title: "",
         artist: "",
@@ -31,10 +32,14 @@ export default function EditTrackModal({
         audioFile: null as File | null,
     });
 
+    // Available genres for the genre selector
     const [availableGenres, setAvailableGenres] = useState<string[]>([]);
+    // Tracks error messages
     const [error, setError] = useState<string | null>(null);
+    // Tracks whether the audio file has been deleted
     const [isDeletedFile, setIsDeletedFile] = useState(false);
 
+    // Initializes the form with the track's data when the modal opens
     useEffect(() => {
         if (isOpen && track) {
             setForm({
@@ -49,16 +54,19 @@ export default function EditTrackModal({
                 audioFile: null,
             });
 
+            // Fetches available genres for the genre selector
             getGenres()
                 .then((genres) => setAvailableGenres(genres))
                 .catch(() => setError("Error during genres download"));
         }
     }, [isOpen, track]);
 
+    // Updates form fields when the user types
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    // Adds a genre to the form's genres array
     const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedGenre = e.target.value;
         if (!form.genres.includes(selectedGenre)) {
@@ -66,10 +74,12 @@ export default function EditTrackModal({
         }
     };
 
+    // Removes a genre from the form's genres array
     const removeGenre = (genre: string) => {
         setForm({ ...form, genres: form.genres.filter((g) => g !== genre) });
     };
 
+    // Handles file selection for the audio file
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -86,6 +96,7 @@ export default function EditTrackModal({
         }
     };
 
+    // Submits the form to update the track
     const handleSubmit = async () => {
         if (!form.title || !form.artist) {
             setError("Title and artist are required");
@@ -107,6 +118,7 @@ export default function EditTrackModal({
                 form.coverImage
             );
 
+            // Uploads the audio file if it has been changed
             if (form.audioFile) {
                 const uploadedFile = await uploadTrackFile(
                     String(track.id),
@@ -138,6 +150,7 @@ export default function EditTrackModal({
                 </h2>
 
                 <div className="space-y-4">
+                    {/* Title input */}
                     <input
                         type="text"
                         name="title"
@@ -147,6 +160,7 @@ export default function EditTrackModal({
                         className="w-full px-3 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:ring-cyan-500 focus:border-cyan-500"
                         data-testid="input-title"
                     />
+                    {/* Artist input */}
                     <input
                         type="text"
                         name="artist"
@@ -156,6 +170,7 @@ export default function EditTrackModal({
                         className="w-full px-3 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:ring-cyan-500 focus:border-cyan-500"
                         data-testid="input-artist"
                     />
+                    {/* Album input */}
                     <input
                         type="text"
                         name="album"
@@ -165,6 +180,7 @@ export default function EditTrackModal({
                         className="w-full px-3 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:ring-cyan-500 focus:border-cyan-500"
                         data-testid="input-album"
                     />
+                    {/* Genre selector */}
                     <div>
                         <label className="block text-sm font-medium mb-2">
                             Genres
@@ -202,6 +218,7 @@ export default function EditTrackModal({
                             ))}
                         </select>
                     </div>
+                    {/* Cover image input */}
                     <input
                         type="text"
                         name="coverImage"
@@ -211,6 +228,7 @@ export default function EditTrackModal({
                         className="w-full px-3 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:ring-cyan-500 focus:border-cyan-500"
                         data-testid="input-cover-image"
                     />
+                    {/* Audio file upload */}
                     <div>
                         <label className="block text-sm font-medium mb-2">
                             Upload audiofile
@@ -240,6 +258,7 @@ export default function EditTrackModal({
                     </div>
                 </div>
 
+                {/* Error message */}
                 {error && (
                     <div
                         className="text-red-400 mt-4 text-sm"
@@ -249,6 +268,7 @@ export default function EditTrackModal({
                     </div>
                 )}
 
+                {/* Action buttons */}
                 <div className="mt-6 flex justify-end gap-3">
                     <button
                         onClick={() => {
