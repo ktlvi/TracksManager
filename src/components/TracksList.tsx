@@ -120,10 +120,16 @@ export default function TracksList() {
 
     // Toggles selection of all tracks
     const handleSelectAll = useCallback(() => {
-        if (tracks.every((track) => selectedTrackIds.includes(track.id))) {
-            setSelectedTrackIds([]);
+        const currentPageTrackIds = tracks.map((track) => track.id);
+        if (currentPageTrackIds.every((id) => selectedTrackIds.includes(id))) {
+            setSelectedTrackIds((prev) =>
+                prev.filter((id) => !currentPageTrackIds.includes(id))
+            );
         } else {
-            setSelectedTrackIds(tracks.map((track) => track.id));
+            setSelectedTrackIds((prev) => [
+                ...prev,
+                ...currentPageTrackIds.filter((id) => !prev.includes(id)),
+            ]);
         }
     }, [tracks, selectedTrackIds]);
 
@@ -172,22 +178,10 @@ export default function TracksList() {
         setIsConfirmDialogOpen(true);
         setConfirmAction(() => async () => {
             try {
-                const tracksToKeep = tracks.filter(
-                    (track) => !selectedTrackIds.includes(track.id)
-                );
-                setTracks(tracksToKeep);
-                setPaginationMeta((prev) => ({
-                    ...prev,
-                    total: Math.max(0, prev.total - selectedTrackIds.length),
-                }));
-                const deletedTrackIds = [...selectedTrackIds];
+                await deleteTracks(selectedTrackIds);
                 setSelectedTrackIds([]);
-                await deleteTracks(deletedTrackIds);
-                if (tracksToKeep.length === 0 && params.page > 1) {
-                    setParams((prev) => ({ ...prev, page: prev.page - 1 }));
-                } else if (tracksToKeep.length === 0) {
-                    setRefreshTrigger((prev) => prev + 1);
-                }
+                setParams((prev) => ({ ...prev, page: 1 }));
+                setRefreshTrigger((prev) => prev + 1);
             } catch (err) {
                 console.error("Error deleting tracks:", err);
                 setError("Failed to delete selected tracks. Please try again.");

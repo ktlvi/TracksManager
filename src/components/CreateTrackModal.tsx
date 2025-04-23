@@ -47,7 +47,7 @@ export default function CreateTrackModal({
     // Adds a genre to the form's genres array
     const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedGenre = e.target.value;
-        if (!form.genres.includes(selectedGenre)) {
+        if (selectedGenre && !form.genres.includes(selectedGenre)) {
             setForm({ ...form, genres: [...form.genres, selectedGenre] });
         }
     };
@@ -187,7 +187,10 @@ export default function CreateTrackModal({
                         </div>
                         <select
                             id="genre-selector"
-                            onChange={handleGenreChange}
+                            onChange={(e) => {
+                                handleGenreChange(e);
+                                e.target.value = ""; // скидання вибору
+                            }}
                             className="max-w-screen w-full px-3 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:ring-cyan-500 focus:border-cyan-500 mt-2"
                             defaultValue=""
                             data-testid="genre-selector"

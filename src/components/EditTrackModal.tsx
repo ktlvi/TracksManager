@@ -66,6 +66,17 @@ export default function EditTrackModal({
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    const handleDeleteFile = async () => {
+        if (!isDeletedFile) {
+            try {
+                await deleteAudiofile(track.id);
+                setIsDeletedFile(true);
+            } catch (e) {
+                setError("Error deleting audio file" + e);
+            }
+        }
+    };
+
     // Adds a genre to the form's genres array
     const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedGenre = e.target.value;
@@ -134,6 +145,24 @@ export default function EditTrackModal({
         }
     };
 
+    const handleClose = () => {
+        onClose();
+        setIsDeletedFile(false);
+        setError(null);
+        setForm({
+            title: "",
+            artist: "",
+            album: "",
+            genres: [],
+            coverImage: "",
+            audioFile: null,
+        });
+    };
+
+    const handleSave = async () => {
+        await handleSubmit();
+        setIsDeletedFile(false);
+    };
     if (!isOpen) return null;
 
     return (
@@ -241,12 +270,7 @@ export default function EditTrackModal({
                             data-testid="upload-track"
                         />
                         <button
-                            onClick={() => {
-                                if (!isDeletedFile) {
-                                    deleteAudiofile(track.id);
-                                    setIsDeletedFile(!isDeletedFile);
-                                }
-                            }}
+                            onClick={handleDeleteFile}
                             className={`px-4 py-2 mt-1 rounded-lg ${
                                 track.audioFile && !isDeletedFile
                                     ? " bg-red-600 hover:bg-red-700"
@@ -272,7 +296,7 @@ export default function EditTrackModal({
                 <div className="mt-6 flex justify-end gap-3">
                     <button
                         onClick={() => {
-                            onClose();
+                            handleClose();
                             setIsDeletedFile(false);
                         }}
                         className="px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-700 transition-colors"
@@ -281,10 +305,7 @@ export default function EditTrackModal({
                         Cancel
                     </button>
                     <button
-                        onClick={() => {
-                            handleSubmit();
-                            setIsDeletedFile(false);
-                        }}
+                        onClick={handleSave}
                         className="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors"
                         data-testid="submit-button"
                     >

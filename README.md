@@ -1,54 +1,73 @@
-# React + TypeScript + Vite
+# 🎧 Track Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, React-based track management interface with audio playback, metadata filtering, optimistic updates, and smooth user interactions.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+-   🎛️ **Optimistic Updates** for faster UI interactions and minimal latency feel
+-   🗑️ **Bulk Deletion** with intuitive multi-select UI
+-   🔊 **Audio Playback with Visualisation** per track (expandable)
+-   📁 **Modal-Based Create/Edit** for seamless flow
+-   🔍 Filtering by genre, artist, and title
+-   📜 Pagination, sorting, search
+-   🧠 Smart error handling and retry logic
+-   💅 Built with TailwindCSS, Hooks and a clean UX
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 1. Install dependencies
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm install
+# or
+yarn install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Run locally
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm run dev
+# or
+yarn dev
 ```
+
+Visit [https://localhost:3000](https://localhost:3000) to open the app.
+
+## 🧭 App Structure
+
+### `/tracks` (Main View)
+
+-   Displays all tracks as cards with playback and controls
+-   Pagination and filters are applied via query params
+-   `+` button opens **Create Modal**
+-   Clicking a card opens **Edit Modal**
+
+### Modals
+
+-   **CreateTrackModal** – create new tracks with optional file upload and metadata
+-   **EditTrackModal** – update title, genre, artist, or upload new audio
+-   Both modals support optimistic UI updates for instant feedback
+
+## 🔄 Optimistic Updates
+
+All create, edit, and delete actions update the UI **before** waiting for the server response. If the request fails, the change is rolled back and an error toast is shown.
+
+## 🗑️ Bulk Delete
+
+You can select multiple tracks using checkboxes and delete them all at once. The list updates immediately via optimistic removal.
+
+## 🎶 Audio Visualisation
+
+Each track can be played inline. Playback status is managed globally to ensure only one track plays at a time. Optional waveform/visualisation components can be plugged in (e.g. `wavesurfer.js`, `tone.js`).
+
+## 🧪 Testing
+
+Basic test IDs are included in UI for E2E and unit test coverage. Use Playwright or React Testing Library for automation.
+
+## 🛠️ Tech Stack
+
+-   React + TypeScript
+-   React Router
+-   TailwindCSS
+-   API with axios
+-   Hooks & composables (e.g. `useModalState`)

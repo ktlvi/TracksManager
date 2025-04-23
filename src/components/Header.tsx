@@ -30,9 +30,12 @@ export default function Header({
     // Toggles the visibility of the filter section
     const [showFilters, setShowFilters] = useState(false);
 
+    const selectClass =
+        "w-full bg-gray-800 text-white px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500";
+
     // Updates the search parameter when the form is submitted
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleSearch = () => {
+        if (!searchTerm.trim()) return;
         onChangeParams({ search: searchTerm });
     };
 
@@ -64,7 +67,7 @@ export default function Header({
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
-                            handleSearch(e);
+                            handleSearch();
                         }}
                         className="flex gap-2"
                     >
@@ -190,7 +193,7 @@ export default function Header({
                         <select
                             value={currentParams.sort}
                             onChange={handleSortChange}
-                            className="w-full bg-gray-800 text-white px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                            className={selectClass}
                             data-testid="sort-select"
                         >
                             <option value="title">Title</option>
@@ -205,7 +208,7 @@ export default function Header({
                         <select
                             value={currentParams.order}
                             onChange={handleOrderChange}
-                            className="w-full bg-gray-800 text-white px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                            className={selectClass}
                             data-testid="sort-select"
                         >
                             <option value="asc">Ascending</option>
@@ -219,7 +222,7 @@ export default function Header({
                         <select
                             value={currentParams.genre}
                             onChange={handleGenreChange}
-                            className="w-full bg-gray-800 text-white px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                            className={selectClass}
                             data-testid="filter-genre"
                         >
                             <option value="">All Genres</option>
@@ -239,7 +242,7 @@ export default function Header({
                             value={currentParams.artist}
                             onChange={handleArtistChange}
                             placeholder="Filter by artist..."
-                            className="w-full bg-gray-800 text-white px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                            className={selectClass}
                             data-testid="filter-artist"
                         />
                     </div>

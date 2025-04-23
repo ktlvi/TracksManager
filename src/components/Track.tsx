@@ -130,7 +130,7 @@ export default function Track({
                         className="my-0.5 text-gray-400 text-xs hidden sm:block"
                         data-testid={`track-item-${id}-created-at`}
                     >
-                        {createdAt.replace("T", " ").slice(0, 19)}
+                        {new Date(createdAt).toLocaleString()}
                     </p>
                 </div>
             </div>
